@@ -10,7 +10,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "homepage": "https://github.com/krsamir/react-utils#readme",
@@ -37,7 +39,11 @@
     "clean": "rimraf dist",
     "build:js": "node esbuild.config.js",
     "build:types": "tsc -p tsconfig.types.json",
-    "build": "npm run clean && npm run build:js && npm run build:types"
+    "build": "npm run clean && npm run build:js && npm run build:types",
+    "publish": "npm publish --access public",
+    "patch": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",

@@ -18,11 +18,11 @@ Useful when tracking down unnecessary renders, unstable references, or unexpecte
 ## Installation
 
 ```bash
-npm install @krsamir/use-why-effect-ran
+npm i @krsamir/react-utils
 ```
 
 ```bash
-yarn add @krsamir/use-why-effect-ran
+yarn add @krsamir/react-utils
 ```
 
 ---
@@ -33,7 +33,7 @@ yarn add @krsamir/use-why-effect-ran
 
 ```tsx
 import { useEffect, useState } from "react";
-import { useWhyEffectRan } from "@krsamir/use-why-effect-ran";
+import { useWhyEffectRan } from "@krsamir/react-utils";
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -183,7 +183,7 @@ you can immediately see what triggered the effect.
 This package ships with built-in TypeScript definitions.
 
 ```ts
-import { useWhyEffectRan } from "@krsamir/use-why-effect-ran";
+import { useWhyEffectRan } from "@krsamir/react-utils";
 ```
 
 No additional type packages are required.
