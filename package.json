@@ -1,0 +1,48 @@
+{
+  "name": "@krsamir/react-utils",
+  "version": "1.0.0",
+  "description": "A React Helper Library",
+  "keywords": [
+    "React",
+    "Typescript"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "homepage": "https://github.com/krsamir/react-utils#readme",
+  "bugs": {
+    "url": "https://github.com/krsamir/react-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/krsamir/react-utils.git"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "license": "ISC",
+  "author": "samir kumar",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:js": "node esbuild.config.js",
+    "build:types": "tsc -p tsconfig.types.json",
+    "build": "npm run clean && npm run build:js && npm run build:types"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0",
+    "rimraf": "^6.0.0",
+    "@types/react": "^19.0.0"
+  }
+}
