@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+
+    options {
+        // Keeps your console output clean and interprets colors properly
+        ansiColor('xterm') 
+    }
+    
+    triggers {
+        // Polls GitHub every 15 minutes to stay safely under the API rate limit
+        pollSCM('*/15 * * * *')
+    }
+
+    tools {
+        // Tells Jenkins to make Node.js available for npm commands
+        nodejs "node"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Dynamically checks out the active branch or PR commit hash
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/shubham168/react-utils.git'
+            }
+        }
+
+        stage('Initialize GitHub Status') {
+            steps {
+                // Sets the amber spinning circle on your GitHub PR/Commit UI
+                setGitHubCommitStatus('PENDING', 'Jenkins is running tests and building...')
+            }
+        }
+        
+        stage('Installing dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+        
+        stage('Run Unit Tests') {
+            steps {
+                // Runs Vitest once with colors disabled to match the Jenkins environment
+                sh "npm run test"
+            }
+        }
+        
+        stage('Building') {
+            steps {
+                // Runs your cleaning, esbuild compilation, and type generation chain
+                sh "npm run build"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Build complete! Sending success badge to GitHub."
+            setGitHubCommitStatus('SUCCESS', 'All tests passed and build succeeded!')
+        }
+        failure {
+            echo "Pipeline broken. Sending failure badge to GitHub."
+            setGitHubCommitStatus('FAILURE', 'Pipeline failed. Check Jenkins logs.')
+        }
+    }
+}
+
+// Reusable helper method to update GitHub commit status badges
+def setGitHubCommitStatus(String state, String message) {
+    step([
+        $class: 'GitHubCommitStatusSetter',
+        reposSource: [
+            $class: 'ManuallyEnteredRepositorySource', 
+            url: 'https://github.com/shubham168/react-utils.git'
+        ],
+        contextSource: [
+            $class: 'ManuallyEnteredCommitContextSource', 
+            context: 'ci/jenkins/build-and-test'
+        ],
+        errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+        statusResultSource: [
+            $class: 'ConditionalStatusResultSource',
+            results: [[
+                $class: 'AnyBuildResult', 
+                state: state, 
+                message: message
+            ]]
+        ]
+    ])
+}
