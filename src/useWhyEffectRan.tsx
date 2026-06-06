@@ -10,14 +10,14 @@ type DependencyChanges = Record<
 
 export function useWhyEffectRan(
   dependencies: DependencyList,
-  dependencyNames: readonly string[] = []
+  dependencyNames: readonly string[] = [],
 ): void {
   const previousDeps = useRef<DependencyList>(dependencies);
 
   useEffect(() => {
     const changes: DependencyChanges = {};
 
-    dependencies.forEach((dep, index) => {
+    dependencies.forEach((dep: any, index: any) => {
       const previousValue = previousDeps.current[index];
 
       if (!Object.is(dep, previousValue)) {

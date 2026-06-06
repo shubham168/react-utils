@@ -41,11 +41,16 @@
     "build:types": "tsc -p tsconfig.types.json",
     "build": "npm run clean && npm run build:js && npm run build:types",
     "publish": "npm publish --access public",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.8",
     "esbuild": "^0.25.0",
     "typescript": "^5.9.0",
     "rimraf": "^6.0.0",
